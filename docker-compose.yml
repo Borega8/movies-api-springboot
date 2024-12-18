@@ -1,0 +1,9 @@
+services:
+  postgres_db:
+    image: postgres:17.2
+    container_name: movies_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${DB_NAME}
