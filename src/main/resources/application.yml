@@ -15,8 +15,8 @@ spring:
       auto-commit: true
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: false
+      ddl-auto: create-drop
+    show-sql: true
     database: POSTGRESQL
 server:
   servlet:
