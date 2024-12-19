@@ -10,5 +10,5 @@ public interface CelebRepository {
     Optional<Celeb> getById(Long id);
     Celeb save(Celeb celeb);
     Celeb update(Celeb celeb);
-    void delete(Celeb celeb);
+    void delete(Long id);
 }
