@@ -2,11 +2,11 @@ package dev.borega.api_movies.movie.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.sql.Time;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -25,10 +25,10 @@ public class MovieEntity {
     @Column(length = 2000)
     private String synopsis;
 
-    @NotBlank
-    private Time duration;
+    @NotNull
+    private Integer runtime;
 
-    @NotBlank
+    @NotNull
     private LocalDate releaseDate;
     private String poster;
 
