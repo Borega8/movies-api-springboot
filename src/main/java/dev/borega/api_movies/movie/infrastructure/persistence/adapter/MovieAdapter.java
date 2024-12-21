@@ -22,11 +22,24 @@ public class MovieAdapter implements MovieRepository {
                 movieEntity.getId(),
                 movieEntity.getTitle(),
                 movieEntity.getSynopsis(),
-                movieEntity.getDuration(),
+                movieEntity.getRuntime(),
                 movieEntity.getReleaseDate(),
                 movieEntity.getPoster(),
                 MPAClassification.valueOf(movieEntity.getClassification().replace("-", "_")),
                 movieEntity.getRating()
+        );
+    }
+
+    private MovieEntity movieToMovieEntity(Movie movie) {
+        return new MovieEntity(
+                movie.getId(),
+                movie.getTitle(),
+                movie.getSynopsis(),
+                movie.getRuntime(),
+                movie.getReleaseDate(),
+                movie.getPoster(),
+                movie.getClassification().name(),
+                movie.getRating()
         );
     }
 
@@ -52,17 +65,19 @@ public class MovieAdapter implements MovieRepository {
 
     @Override
     public Movie save(Movie movie) {
-        return null;
+        MovieEntity movieEntity = movieDBRepository.save(movieToMovieEntity(movie));
+        return movieEntityToMovie(movieEntity);
     }
 
     @Override
     public Movie update(Movie movie) {
-        return null;
+        MovieEntity movieEntity = movieDBRepository.save(movieToMovieEntity(movie));
+        return movieEntityToMovie(movieEntity);
     }
 
     @Override
     public void delete(Long id) {
-
+        movieDBRepository.deleteById(id);
     }
 
     @Override
