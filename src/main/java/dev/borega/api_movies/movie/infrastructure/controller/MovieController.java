@@ -51,7 +51,7 @@ public class MovieController {
 
     @PostMapping
     public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-        return ResponseEntity.ok(moviePort.save(movie));
+        return ResponseEntity.status(HttpStatus.CREATED).body(moviePort.save(movie));
     }
 
     @PutMapping("/{id}")
