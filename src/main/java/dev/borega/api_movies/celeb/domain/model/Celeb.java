@@ -16,4 +16,8 @@ public class Celeb {
     private String birthPlace;
     private String biography;
     private String photo;
+
+    public boolean isValidBirthdate() {
+        return !this.birthDate.isAfter(LocalDate.now());
+    }
 }
