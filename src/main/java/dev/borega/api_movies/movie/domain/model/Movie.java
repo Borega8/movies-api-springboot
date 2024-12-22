@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @AllArgsConstructor
 @Getter
@@ -18,4 +19,17 @@ public class Movie {
     private String poster;
     private MPAClassification classification;
     private Double rating;
+
+    public boolean isValidRuntime() {
+        return this.runtime > 0;
+    }
+
+    public boolean isValidReleaseDate() {
+        final LocalDate today = LocalDate.now();
+        return this.releaseDate.isBefore(today) || this.releaseDate.isEqual(today);
+    }
+
+    public boolean isValidClassification() {
+        return Arrays.stream(MPAClassification.values()).anyMatch(cl -> cl.compareTo(this.classification) == 0);
+    }
 }
