@@ -2,6 +2,7 @@ package dev.borega.api_movies.movie.infrastructure.controller;
 
 import dev.borega.api_movies.celeb.domain.exception.CelebNotFoundException;
 import dev.borega.api_movies.movie.application.MoviePort;
+import dev.borega.api_movies.movie.domain.exception.InvalidValueException;
 import dev.borega.api_movies.movie.domain.exception.MovieNotFoundException;
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.Movie;
@@ -50,18 +51,36 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(moviePort.save(movie));
+    public ResponseEntity<?> saveMovie(@RequestBody Movie movie) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(moviePort.save(movie));
+
+        } catch (Exception e) {
+            if (e instanceof InvalidValueException)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+            if (e instanceof IllegalArgumentException)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
+    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
         try {
             return ResponseEntity.ok(moviePort.update(movie));
 
         } catch (Exception e) {
             if (e instanceof MovieNotFoundException)
                 return ResponseEntity.notFound().build();
+
+            if (e instanceof InvalidValueException)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+            if (e instanceof IllegalArgumentException)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 
             return ResponseEntity.internalServerError().build();
         }
