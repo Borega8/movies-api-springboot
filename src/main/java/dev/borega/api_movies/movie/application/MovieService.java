@@ -1,5 +1,6 @@
 package dev.borega.api_movies.movie.application;
 
+import dev.borega.api_movies.movie.domain.exception.InvalidValueException;
 import dev.borega.api_movies.movie.domain.exception.MovieNotFoundException;
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.Movie;
@@ -42,16 +43,31 @@ public class MovieService implements MoviePort {
 
     @Override
     public Movie save(Movie movie) {
+        validateMovie(movie);
+
         return movieRepository.save(movie);
     }
 
     @Override
     public Movie update(Movie movie) {
+        validateMovie(movie);
+
         return movieRepository.update(movie);
     }
 
     @Override
     public void delete(Long id) {
         movieRepository.delete(id);
+    }
+
+    private void validateMovie(Movie movie) {
+        if (!movie.isValidRuntime())
+            throw new InvalidValueException("Runtime must be greater than 0");
+
+        if (!movie.isValidReleaseDate())
+            throw new InvalidValueException("Release date cannot be after today");
+
+        if (!movie.isValidClassification())
+            throw new InvalidValueException("Incorrect classification value");
     }
 }
