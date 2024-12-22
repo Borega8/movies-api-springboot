@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -36,4 +37,6 @@ public class MovieEntity {
     private String classification;
 
     private Double rating;
+
+    private List<String> genres;
 }

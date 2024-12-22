@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -19,6 +20,7 @@ public class Movie {
     private String poster;
     private MPAClassification classification;
     private Double rating;
+    private List<MovieGenre> genres;
 
     public boolean isValidRuntime() {
         return this.runtime > 0;
