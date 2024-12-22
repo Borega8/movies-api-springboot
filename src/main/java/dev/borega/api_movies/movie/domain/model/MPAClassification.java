@@ -1,5 +1,10 @@
 package dev.borega.api_movies.movie.domain.model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Getter
 public enum MPAClassification {
     G("G", "General Audiences"),
     PG("PG", "Parental Guidance Suggested"),
@@ -7,5 +12,6 @@ public enum MPAClassification {
     R("R", "Restricted"),
     NC_17("NC-17", "Adults Only");
 
-    MPAClassification(String classification, String description) {}
+    private final String classification;
+    private final String description;
 }
