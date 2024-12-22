@@ -25,8 +25,7 @@ public class Movie {
     }
 
     public boolean isValidReleaseDate() {
-        final LocalDate today = LocalDate.now();
-        return this.releaseDate.isBefore(today) || this.releaseDate.isEqual(today);
+        return !this.releaseDate.isAfter(LocalDate.now());
     }
 
     public boolean isValidClassification() {
