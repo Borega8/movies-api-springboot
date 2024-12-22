@@ -1,6 +1,6 @@
 package dev.borega.api_movies.movie.application;
 
-import dev.borega.api_movies.movie.domain.exception.InvalidValueException;
+import dev.borega.api_movies.shared.domain.exception.InvalidValueException;
 import dev.borega.api_movies.movie.domain.exception.MovieNotFoundException;
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.Movie;

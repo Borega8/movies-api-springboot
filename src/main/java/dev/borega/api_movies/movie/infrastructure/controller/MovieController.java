@@ -2,7 +2,7 @@ package dev.borega.api_movies.movie.infrastructure.controller;
 
 import dev.borega.api_movies.celeb.domain.exception.CelebNotFoundException;
 import dev.borega.api_movies.movie.application.MoviePort;
-import dev.borega.api_movies.movie.domain.exception.InvalidValueException;
+import dev.borega.api_movies.shared.domain.exception.InvalidValueException;
 import dev.borega.api_movies.movie.domain.exception.MovieNotFoundException;
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.Movie;

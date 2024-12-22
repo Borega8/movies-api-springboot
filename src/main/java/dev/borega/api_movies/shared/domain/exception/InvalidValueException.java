@@ -1,4 +1,4 @@
-package dev.borega.api_movies.movie.domain.exception;
+package dev.borega.api_movies.shared.domain.exception;
 
 public class InvalidValueException extends RuntimeException {
     public InvalidValueException(String message) {
