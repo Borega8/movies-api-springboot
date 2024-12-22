@@ -2,6 +2,7 @@ package dev.borega.api_movies.movie.infrastructure.persistence.adapter;
 
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.Movie;
+import dev.borega.api_movies.movie.domain.model.MovieGenre;
 import dev.borega.api_movies.movie.domain.repository.MovieRepository;
 import dev.borega.api_movies.movie.infrastructure.persistence.entity.MovieEntity;
 import dev.borega.api_movies.movie.infrastructure.persistence.repository.MovieDBRepository;
@@ -26,7 +27,8 @@ public class MovieAdapter implements MovieRepository {
                 movieEntity.getReleaseDate(),
                 movieEntity.getPoster(),
                 MPAClassification.valueOf(movieEntity.getClassification().replace("-", "_")),
-                movieEntity.getRating()
+                movieEntity.getRating(),
+                movieEntity.getGenres().stream().map(genre -> MovieGenre.valueOf(genre.toUpperCase())).toList()
         );
     }
 
@@ -39,7 +41,8 @@ public class MovieAdapter implements MovieRepository {
                 movie.getReleaseDate(),
                 movie.getPoster(),
                 movie.getClassification().name(),
-                movie.getRating()
+                movie.getRating(),
+                movie.getGenres().stream().map(genre -> genre.getGenre()).toList()
         );
     }
 
