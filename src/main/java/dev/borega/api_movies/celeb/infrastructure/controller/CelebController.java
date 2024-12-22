@@ -3,6 +3,7 @@ package dev.borega.api_movies.celeb.infrastructure.controller;
 import dev.borega.api_movies.celeb.aplication.CelebPort;
 import dev.borega.api_movies.celeb.domain.exception.CelebNotFoundException;
 import dev.borega.api_movies.celeb.domain.model.Celeb;
+import dev.borega.api_movies.shared.domain.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +39,17 @@ public class CelebController {
     }
 
     @PostMapping
-    public ResponseEntity<Celeb> saveCeleb(@RequestBody Celeb celeb) {
-        Celeb newCeleb = celebPort.save(celeb);
+    public ResponseEntity<?> saveCeleb(@RequestBody Celeb celeb) {
+        try {
+            Celeb newCeleb = celebPort.save(celeb);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(newCeleb);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newCeleb);
+        } catch (Exception e) {
+            if (e instanceof InvalidValueException)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PutMapping("/{id}")
@@ -52,7 +60,10 @@ public class CelebController {
 
         } catch (Exception e) {
             if (e instanceof CelebNotFoundException)
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+            if (e instanceof InvalidValueException)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

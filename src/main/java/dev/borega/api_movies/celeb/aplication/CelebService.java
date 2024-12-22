@@ -3,6 +3,7 @@ package dev.borega.api_movies.celeb.aplication;
 import dev.borega.api_movies.celeb.domain.exception.CelebNotFoundException;
 import dev.borega.api_movies.celeb.domain.model.Celeb;
 import dev.borega.api_movies.celeb.domain.repository.CelebRepository;
+import dev.borega.api_movies.shared.domain.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,14 @@ public class CelebService implements CelebPort {
 
     @Override
     public Celeb save(Celeb celeb) {
+        validateCeleb(celeb);
         return celebRepository.save(celeb);
     }
 
     @Override
     public Celeb update(Celeb celeb) {
+        validateCeleb(celeb);
+
         Optional<Celeb> celebOptional = celebRepository.getById(celeb.getId());
 
         if (celebOptional.isEmpty())
@@ -48,6 +52,11 @@ public class CelebService implements CelebPort {
             throw new CelebNotFoundException();
 
         celebRepository.delete(id);
+    }
+
+    private void validateCeleb(Celeb celeb) {
+        if (!celeb.isValidBirthdate())
+            throw new InvalidValueException("Birthdate cannot be after today");
     }
 }
 
