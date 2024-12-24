@@ -5,6 +5,7 @@ import dev.borega.api_movies.celeb.domain.repository.CelebRepository;
 import dev.borega.api_movies.celeb.infrastructure.persistence.entity.CelebEntity;
 import dev.borega.api_movies.celeb.infrastructure.persistence.repository.CelebDBRespository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class CelebAdapter implements CelebRepository {
 
     @Override
     public List<Celeb> getAll() {
-        return celebDBRespository.findAll().stream().map(this::celebEntityToCeleb).toList();
+        return celebDBRespository.findAll(Sort.by("celebId")).stream().map(this::celebEntityToCeleb).toList();
     }
 
     @Override
