@@ -1,13 +1,13 @@
 package dev.borega.api_movies.celeb.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 @ToString
 public class Celeb {
     private Long id;
