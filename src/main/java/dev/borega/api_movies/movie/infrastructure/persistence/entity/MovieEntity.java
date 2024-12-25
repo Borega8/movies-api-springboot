@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Generated;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,6 +39,9 @@ public class MovieEntity {
     @NotBlank
     private String classification;
 
+    @ColumnDefault("0")
+    @Generated
+    @Column(insertable = false)
     private Double rating;
 
     private List<String> genres;
