@@ -2,6 +2,7 @@ package dev.borega.api_movies.movie.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString
 public class Movie {
     private Long id;
