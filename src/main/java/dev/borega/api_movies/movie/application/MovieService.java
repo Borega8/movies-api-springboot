@@ -57,6 +57,7 @@ public class MovieService implements MoviePort {
 
     @Override
     public void delete(Long id) {
+        movieRepository.getById(id).orElseThrow(MovieNotFoundException::new);
         movieRepository.delete(id);
     }
 
