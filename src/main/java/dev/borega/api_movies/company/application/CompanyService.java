@@ -34,6 +34,7 @@ public class CompanyService implements CompanyPort {
     @Override
     public Company update(Company company) {
         validateCompany(company);
+        companyRepository.getById(company.getId()).orElseThrow(CompanyNotFoundException::new);
         return companyRepository.update(company);
     }
 
