@@ -5,10 +5,12 @@ import dev.borega.api_movies.company.domain.model.Company;
 import dev.borega.api_movies.company.domain.repository.CompanyRepository;
 import dev.borega.api_movies.shared.domain.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+@Service
 public class CompanyService implements CompanyPort {
 
     private final CompanyRepository companyRepository;
