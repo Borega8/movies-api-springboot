@@ -6,11 +6,13 @@ import dev.borega.api_movies.company.infrastructure.mapper.CompanyMapper;
 import dev.borega.api_movies.company.infrastructure.persistence.entity.CompanyEntity;
 import dev.borega.api_movies.company.infrastructure.persistence.respository.CompanyDBRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Component
 public class CompanyAdapter implements CompanyRepository {
 
     private final CompanyDBRepository companyDBRepository;
