@@ -2,6 +2,8 @@ package dev.borega.api_movies.movie.infrastructure.controller;
 
 import dev.borega.api_movies.celeb.domain.exception.CelebNotFoundException;
 import dev.borega.api_movies.movie.application.MoviePort;
+import dev.borega.api_movies.movie.infrastructure.dto.BasicMovieDTO;
+import dev.borega.api_movies.movie.infrastructure.mapper.MovieMapper;
 import dev.borega.api_movies.shared.domain.exception.InvalidValueException;
 import dev.borega.api_movies.movie.domain.exception.MovieNotFoundException;
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
@@ -20,28 +22,41 @@ import java.util.List;
 public class MovieController {
 
     private final MoviePort moviePort;
+    private final MovieMapper movieMapper = MovieMapper.INSTANCE;
 
     @GetMapping
-    public ResponseEntity<APIResponse<List<Movie>>> getAllMovies(
+    public ResponseEntity<APIResponse<List<BasicMovieDTO>>> getAllMovies(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) MPAClassification classification
     ) {
-        if (classification != null && title != null)
-            return ResponseEntity.ok(new APIResponse<>(moviePort.getByTitleAndClassification(title, classification)));
+        List<Movie> movies;
 
-        if (classification != null)
-            return ResponseEntity.ok(new APIResponse<>(moviePort.getByClassification(classification)));
+        if (classification != null && title != null) {
+            movies = moviePort.getByTitleAndClassification(title, classification);
+            return ResponseEntity.ok(new APIResponse<>(movies.stream().map(movieMapper::movieToBasicMovieDTO).toList()));
+        }
 
-        if (title != null)
-            return ResponseEntity.ok(new APIResponse<>(moviePort.getByTitle(title)));
+        if (classification != null) {
+            movies = moviePort.getByClassification(classification);
+            return ResponseEntity.ok(new APIResponse<>(movies.stream().map(movieMapper::movieToBasicMovieDTO).toList()));
+        }
 
-        return ResponseEntity.ok(new APIResponse<>(moviePort.getAll()));
+        if (title != null) {
+            movies = moviePort.getByTitle(title);
+            return ResponseEntity.ok(new APIResponse<>(movies.stream().map(movieMapper::movieToBasicMovieDTO).toList()));
+        }
+
+        return ResponseEntity.ok(new APIResponse<>(moviePort.getAll().stream().map(movieMapper::movieToBasicMovieDTO).toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<APIResponse<Movie>> getMovie(@PathVariable Long id) {
+    public ResponseEntity<APIResponse<BasicMovieDTO>> getMovie(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(new APIResponse<>(moviePort.getById(id)));
+            Movie movie = moviePort.getById(id);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new APIResponse<>(movieMapper.movieToBasicMovieDTO(movie)));
 
         } catch (Exception e) {
             if (e instanceof MovieNotFoundException)
@@ -52,9 +67,13 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveMovie(@RequestBody Movie movie) {
+    public ResponseEntity<?> saveMovie(@RequestBody BasicMovieDTO movieDTO) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(new APIResponse<>(moviePort.save(movie)));
+            Movie movie = moviePort.save(movieMapper.basicMovieDTOToMovie(movieDTO));
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new APIResponse<>(movieMapper.movieToBasicMovieDTO(movie)));
 
         } catch (Exception e) {
             if (e instanceof InvalidValueException)
@@ -69,9 +88,16 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
+    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody BasicMovieDTO movieDTO) {
         try {
-            return ResponseEntity.ok(new APIResponse<>(moviePort.update(movie)));
+            Movie movie = movieMapper.basicMovieDTOToMovie(movieDTO);
+            movie.setId(id);
+
+            Movie movieUpdated = moviePort.update(movie);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new APIResponse<>(movieMapper.movieToBasicMovieDTO(movieUpdated)));
 
         } catch (Exception e) {
             if (e instanceof MovieNotFoundException)
