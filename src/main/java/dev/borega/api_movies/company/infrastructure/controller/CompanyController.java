@@ -102,4 +102,21 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCompany(@PathVariable Long id) {
+        try {
+            companyPort.delete(id);
+
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            if (e instanceof CompanyNotFoundException)
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(new APIResponse<>(null, e.getMessage())
+                        );
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
