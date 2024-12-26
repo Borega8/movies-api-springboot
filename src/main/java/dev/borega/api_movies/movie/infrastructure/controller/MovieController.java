@@ -1,6 +1,5 @@
 package dev.borega.api_movies.movie.infrastructure.controller;
 
-import dev.borega.api_movies.celeb.domain.exception.CelebNotFoundException;
 import dev.borega.api_movies.movie.application.MoviePort;
 import dev.borega.api_movies.movie.infrastructure.dto.BasicMovieDTO;
 import dev.borega.api_movies.movie.infrastructure.mapper.MovieMapper;
@@ -120,7 +119,7 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
         } catch (Exception e) {
-            if (e instanceof CelebNotFoundException)
+            if (e instanceof MovieNotFoundException)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse<>(null, e.getMessage()));
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
