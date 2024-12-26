@@ -73,4 +73,33 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse<BasicCompanyDTO>> updateCompany(@PathVariable Long id, @RequestBody BasicCompanyDTO companyDTO) {
+        try {
+            Company company = companyMapper.basicCompanyDTOToCompany(companyDTO);
+            company.setId(id);
+
+            companyPort.update(company);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new APIResponse<>(
+                            companyMapper.companyToBasicCompanyDTO(company)
+                    ));
+        } catch (Exception e) {
+            if (e instanceof CompanyNotFoundException)
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(new APIResponse<>(null, e.getMessage())
+                        );
+
+            if (e instanceof InvalidValueException)
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(new APIResponse<>(null, e.getMessage()));
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
