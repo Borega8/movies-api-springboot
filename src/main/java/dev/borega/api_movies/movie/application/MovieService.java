@@ -51,6 +51,7 @@ public class MovieService implements MoviePort {
     @Override
     public Movie update(Movie movie) {
         validateMovie(movie);
+        movieRepository.getById(movie.getId()).orElseThrow(MovieNotFoundException::new);
 
         return movieRepository.update(movie);
     }
