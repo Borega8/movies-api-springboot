@@ -1,5 +1,6 @@
 package dev.borega.api_movies.movie.domain.model;
 
+import dev.borega.api_movies.company.domain.model.Company;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Movie {
     private MPAClassification classification;
     private Double rating;
     private List<MovieGenre> genres;
+//    private List<Company> companies;
 
     public boolean isValidRuntime() {
         return this.runtime > 0;
