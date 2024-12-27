@@ -2,8 +2,8 @@ package dev.borega.api_movies.movie.infrastructure.persistence.adapter;
 
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.Movie;
-import dev.borega.api_movies.movie.domain.model.MovieGenre;
 import dev.borega.api_movies.movie.domain.repository.MovieRepository;
+import dev.borega.api_movies.movie.infrastructure.mapper.MovieMapper;
 import dev.borega.api_movies.movie.infrastructure.persistence.entity.MovieEntity;
 import dev.borega.api_movies.movie.infrastructure.persistence.repository.MovieDBRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,65 +17,40 @@ import java.util.Optional;
 public class MovieAdapter implements MovieRepository {
 
     private final MovieDBRepository movieDBRepository;
-
-    private Movie movieEntityToMovie(MovieEntity movieEntity) {
-        return new Movie(
-                movieEntity.getId(),
-                movieEntity.getTitle(),
-                movieEntity.getSynopsis(),
-                movieEntity.getRuntime(),
-                movieEntity.getReleaseDate(),
-                movieEntity.getPoster(),
-                MPAClassification.valueOf(movieEntity.getClassification().replace("-", "_")),
-                movieEntity.getRating(),
-                movieEntity.getGenres().stream().map(genre -> MovieGenre.valueOf(genre.toUpperCase())).toList()
-        );
-    }
-
-    private MovieEntity movieToMovieEntity(Movie movie) {
-        return new MovieEntity(
-                movie.getId(),
-                movie.getTitle(),
-                movie.getSynopsis(),
-                movie.getRuntime(),
-                movie.getReleaseDate(),
-                movie.getPoster(),
-                movie.getClassification().name(),
-                movie.getRating(),
-                movie.getGenres().stream().map(genre -> genre.getGenre()).toList()
-        );
-    }
+    private final MovieMapper movieMapper = MovieMapper.INSTANCE;
 
     @Override
     public List<Movie> getAll() {
-        return movieDBRepository.findAll().stream().map(this::movieEntityToMovie).toList();
+        return movieDBRepository.findAll().stream().map(movieMapper::movieEntityToMovie).toList();
     }
 
     @Override
     public Optional<Movie> getById(Long id) {
-        return movieDBRepository.findById(id).map(this::movieEntityToMovie);
+        return movieDBRepository.findById(id).map(movieMapper::movieEntityToMovie);
     }
 
     @Override
     public List<Movie> getByTitle(String title) {
-        return movieDBRepository.findByTitleContainingIgnoreCase(title).stream().map(this::movieEntityToMovie).toList();
+        return movieDBRepository.findByTitleContainingIgnoreCase(title).stream().map(movieMapper::movieEntityToMovie).toList();
     }
 
     @Override
     public List<Movie> getByClassification(MPAClassification classification) {
-        return movieDBRepository.findByClassificationIsIgnoreCase(classification.name().replace("_", "-")).stream().map(this::movieEntityToMovie).toList();
+        return movieDBRepository.findByClassificationIsIgnoreCase(classification.name().replace("_", "-")).stream().map(movieMapper::movieEntityToMovie).toList();
     }
 
     @Override
     public Movie save(Movie movie) {
-        MovieEntity movieEntity = movieDBRepository.save(movieToMovieEntity(movie));
-        return movieEntityToMovie(movieEntity);
+        System.out.println("ADAPTER ===> " + movie);
+        MovieEntity movieEntity = movieDBRepository.save(movieMapper.movieToMovieEntity(movie));
+        System.out.println(movieEntity.getTitle());
+        return movieMapper.movieEntityToMovie(movieEntity);
     }
 
     @Override
     public Movie update(Movie movie) {
-        MovieEntity movieEntity = movieDBRepository.save(movieToMovieEntity(movie));
-        return movieEntityToMovie(movieEntity);
+        MovieEntity movieEntity = movieDBRepository.save(movieMapper.movieToMovieEntity(movie));
+        return movieMapper.movieEntityToMovie(movieEntity);
     }
 
     @Override
@@ -85,6 +60,6 @@ public class MovieAdapter implements MovieRepository {
 
     @Override
     public List<Movie> getByTitleAndClassification(String title, MPAClassification classification) {
-        return movieDBRepository.findByTitleContainingIgnoreCaseAndClassificationContaining(title, classification.name().replace("_", "-")).stream().map(this::movieEntityToMovie).toList();
+        return movieDBRepository.findByTitleContainingIgnoreCaseAndClassificationContaining(title, classification.name().replace("_", "-")).stream().map(movieMapper::movieEntityToMovie).toList();
     }
 }
