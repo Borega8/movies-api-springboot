@@ -14,6 +14,6 @@ public record BasicMovieDTO(
         String poster,
         MPAClassification classification,
         Double rating,
-        List<MovieGenre>genres
+        List<MovieGenre> genres
 ) {
 }
