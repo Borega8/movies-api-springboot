@@ -1,21 +1,25 @@
 package dev.borega.api_movies.movie.infrastructure.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.borega.api_movies.company.infrastructure.persistence.entity.CompanyEntity;
+import dev.borega.api_movies.movie.domain.model.MovieGenre;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Generated;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "movies")
 public class MovieEntity {
@@ -44,5 +48,14 @@ public class MovieEntity {
     @Column(insertable = false)
     private Double rating;
 
-    private List<String> genres;
+    private Set<MovieGenre> genres;
+
+    @ManyToMany
+    @JoinTable(
+            name = "companies_movies",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_id")
+    )
+    @JsonIgnore
+    private Set<CompanyEntity> companies;
 }
