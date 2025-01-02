@@ -1,10 +1,11 @@
 package dev.borega.api_movies.movie.infrastructure.dto;
 
+import dev.borega.api_movies.company.infrastructure.dto.CompanyNameDTO;
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.MovieGenre;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 public record BasicMovieDTO(
         String title,
@@ -14,6 +15,7 @@ public record BasicMovieDTO(
         String poster,
         MPAClassification classification,
         Double rating,
-        List<MovieGenre> genres
+        Set<MovieGenre> genres,
+        Set<CompanyNameDTO> companies
 ) {
 }
