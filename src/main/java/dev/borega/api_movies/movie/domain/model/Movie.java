@@ -1,19 +1,17 @@
 package dev.borega.api_movies.movie.domain.model;
 
-import dev.borega.api_movies.company.domain.model.Company;
+import dev.borega.api_movies.company.domain.model.CompanyInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Movie {
     private Long id;
     private String title;
@@ -23,8 +21,8 @@ public class Movie {
     private String poster;
     private MPAClassification classification;
     private Double rating;
-    private List<MovieGenre> genres;
-//    private List<Company> companies;
+    private Set<MovieGenre> genres;
+    private Set<CompanyInfo> companies;
 
     public boolean isValidRuntime() {
         return this.runtime > 0;
