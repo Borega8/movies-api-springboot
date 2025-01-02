@@ -41,9 +41,7 @@ public class MovieAdapter implements MovieRepository {
 
     @Override
     public Movie save(Movie movie) {
-        System.out.println("ADAPTER ===> " + movie);
         MovieEntity movieEntity = movieDBRepository.save(movieMapper.movieToMovieEntity(movie));
-        System.out.println(movieEntity.getTitle());
         return movieMapper.movieEntityToMovie(movieEntity);
     }
 
