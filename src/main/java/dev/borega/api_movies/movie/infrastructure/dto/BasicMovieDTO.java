@@ -1,5 +1,6 @@
 package dev.borega.api_movies.movie.infrastructure.dto;
 
+import dev.borega.api_movies.celeb.infrastructure.dto.CelebNameDTO;
 import dev.borega.api_movies.company.infrastructure.dto.CompanyNameDTO;
 import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.MovieGenre;
@@ -16,6 +17,7 @@ public record BasicMovieDTO(
         MPAClassification classification,
         Double rating,
         Set<MovieGenre> genres,
-        Set<CompanyNameDTO> companies
+        Set<CompanyNameDTO> companies,
+        Set<CelebNameDTO> celebs
 ) {
 }
