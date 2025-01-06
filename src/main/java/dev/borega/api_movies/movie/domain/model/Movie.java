@@ -1,5 +1,6 @@
 package dev.borega.api_movies.movie.domain.model;
 
+import dev.borega.api_movies.celeb.domain.model.Celeb;
 import dev.borega.api_movies.company.domain.model.CompanyInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Movie {
     private Double rating;
     private Set<MovieGenre> genres;
     private Set<CompanyInfo> companies;
+    private Set<Celeb> celebs;
 
     public boolean isValidRuntime() {
         return this.runtime > 0;
