@@ -58,4 +58,7 @@ public class MovieEntity {
     )
     @JsonIgnore
     private Set<CompanyEntity> companies;
+
+    @OneToMany(mappedBy = "movie")
+    private Set<MoviesHasCelebs> celebs;
 }

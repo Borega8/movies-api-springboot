@@ -1,11 +1,13 @@
 package dev.borega.api_movies.celeb.infrastructure.persistence.entity;
 
+import dev.borega.api_movies.movie.infrastructure.persistence.entity.MoviesHasCelebs;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -34,4 +36,7 @@ public class CelebEntity {
     private String biography;
 
     private String photo;
+
+    @OneToMany(mappedBy = "celeb")
+    private Set<MoviesHasCelebs> movies;
 }
