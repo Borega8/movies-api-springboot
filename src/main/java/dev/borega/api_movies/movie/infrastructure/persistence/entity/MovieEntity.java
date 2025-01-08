@@ -45,7 +45,7 @@ public class MovieEntity {
 
     @ColumnDefault("0")
     @Generated
-    @Column(insertable = false)
+    @Column(insertable = false, updatable = false)
     private Double rating;
 
     private Set<MovieGenre> genres;
