@@ -3,10 +3,7 @@ package dev.borega.api_movies.celeb.infrastructure.mapper;
 import dev.borega.api_movies.celeb.domain.model.Celeb;
 import dev.borega.api_movies.celeb.infrastructure.dto.BasicCelebDTO;
 import dev.borega.api_movies.celeb.infrastructure.persistence.entity.CelebEntity;
-import dev.borega.api_movies.company.domain.model.CompanyInfo;
-import dev.borega.api_movies.movie.domain.model.MPAClassification;
 import dev.borega.api_movies.movie.domain.model.Movie;
-import dev.borega.api_movies.movie.domain.model.MovieGenre;
 import dev.borega.api_movies.movie.infrastructure.mapper.MovieMapper;
 import dev.borega.api_movies.movie.infrastructure.persistence.entity.MoviesHasCelebs;
 import org.mapstruct.Mapper;
@@ -14,7 +11,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Mapper
 public interface CelebMapper {
